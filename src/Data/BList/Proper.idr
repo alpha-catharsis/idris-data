@@ -37,3 +37,7 @@ notProperNil : {xs : BList a} -> Not (Proper xs) -> xs = []
 notProperNil {xs=[]} propContra = Refl
 notProperNil {xs=x' :- xs'} propContra = void (propContra ProperCons)
 notProperNil {xs=xs' -: x'} propContra = void (propContra ProperSnoc)
+
+export
+diffProperNotEq : Not (Proper xs) -> Proper xs' -> Not (xs = xs')
+diffProperNotEq propContra propPrf Refl = propContra propPrf
