@@ -45,9 +45,9 @@ last (xs -: x) _ = x
 
 public export
 data HeadOf : a -> BList a -> Type where
-  ConsHead : HeadOf x (x :- xs)
-  SnocHead : HeadOf x ([] -: x)
-  FarHead : HeadOf x xs -> HeadOf x (xs -: x')
+  ConsHead : {x : a} -> HeadOf x (x :- xs)
+  SnocHead : {x : a} -> HeadOf x ([] -: x)
+  FarHead : {x : a} -> HeadOf x xs -> HeadOf x (xs -: x')
 
 export
 Uninhabited (HeadOf x []) where
@@ -71,6 +71,12 @@ export
   uninhabited ConsHead = propContra ProperCons
   uninhabited SnocHead = propContra ProperSnoc
   uninhabited (FarHead headPrf) = propContra ProperSnoc
+
+public export
+headOf : {0 x : a} -> HeadOf x xs -> a
+headOf (ConsHead {x}) = x
+headOf (SnocHead {x}) = x
+headOf (FarHead _ {x}) = x
 
 public export
 decHeadOf : DecEq a => (x : a) -> (xs : BList a) -> Dec (HeadOf x xs)
@@ -126,9 +132,9 @@ snocHead (FarHead headPrf) = FarHead (snocHead headPrf)
 
 public export
 data LastOf : a -> BList a -> Type where
-  SnocLast : LastOf x (xs -: x)
-  ConsLast : LastOf x (x :- [])
-  FarLast : LastOf x xs -> LastOf x (x' :- xs)
+  SnocLast : {x : a} -> LastOf x (xs -: x)
+  ConsLast : {x : a} -> LastOf x (x :- [])
+  FarLast : {x : a} -> LastOf x xs -> LastOf x (x' :- xs)
 
 export
 Uninhabited (LastOf x []) where
@@ -152,6 +158,12 @@ export
   uninhabited SnocLast = propContra ProperSnoc
   uninhabited ConsLast = propContra ProperCons
   uninhabited (FarLast lastPrf) = propContra ProperCons
+
+public export
+lastOf : {0 x : a} -> LastOf x xs -> a
+lastOf (SnocLast {x}) = x
+lastOf (ConsLast {x}) = x
+lastOf (FarLast _ {x}) = x
 
 public export
 decLastOf : DecEq a => (x : a) -> (xs : BList a) -> Dec (LastOf x xs)
