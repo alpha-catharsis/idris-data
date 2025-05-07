@@ -92,13 +92,11 @@ headOfProper SnocHead = ProperSnoc
 headOfProper (FarHead _) = ProperSnoc
 
 export
-prfToHeadEq : DecEq a => {x : a} -> {xs : BList a} -> {0 propPrf : Proper xs} -> HeadOf x xs -> head xs propPrf = x
+prfToHeadEq : DecEq a => {xs : BList a} -> {0 propPrf : Proper xs} -> HeadOf x xs -> head xs propPrf = x
 prfToHeadEq {xs=x' :- xs'} ConsHead = Refl
 prfToHeadEq {xs=xs' -: x'} headPrf with (decProper xs')
   prfToHeadEq {xs=xs' -: x'} headPrf | No propContra with (notProperNil propContra)
-    prfToHeadEq {xs=[] -: x'} headPrf | No propContra | Refl = case decEq x x' of
-      No eqContra => void (uninhabited headPrf)
-      Yes eqPrf => rewrite eqPrf in Refl
+    prfToHeadEq {xs=[] -: x'} SnocHead | No propContra | Refl = Refl
   prfToHeadEq {xs=xs' -: x'} (FarHead headPrf) | Yes propPrf' = prfToHeadEq headPrf
 
 export
@@ -190,12 +188,10 @@ lastOfProper ConsLast = ProperCons
 lastOfProper (FarLast _) = ProperCons
 
 export
-prfToLastEq : DecEq a => {x : a} -> {xs : BList a} -> {0 propPrf : Proper xs} -> LastOf x xs -> last xs propPrf = x
+prfToLastEq : DecEq a => {xs : BList a} -> {0 propPrf : Proper xs} -> LastOf x xs -> last xs propPrf = x
 prfToLastEq {xs=x' :- xs'} lastPrf with (decProper xs')
   prfToLastEq {xs=x' :- xs'} lastPrf | No propContra with (notProperNil propContra)
-    prfToLastEq {xs=x' :- []} lastPrf | No propContra | Refl = case decEq x x' of
-      No eqContra => void (uninhabited lastPrf)
-      Yes eqPrf => rewrite eqPrf in Refl
+    prfToLastEq {xs=x' :- []} ConsLast | No propContra | Refl = Refl
   prfToLastEq {xs=x' :- xs'} (FarLast lastPrf) | Yes propPrf' = prfToLastEq lastPrf
 prfToLastEq {xs=xs' -: x'} SnocLast = Refl
 
