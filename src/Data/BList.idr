@@ -9,3 +9,4 @@ module Data.BList
 -----------------
 
 import public Data.BList.BList
+import public Data.BList.Proper

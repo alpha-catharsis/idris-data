@@ -1,3 +1,7 @@
+--------------------
+-- Module definition
+--------------------
+
 module Data.BList.BList
 
 ---------------------
