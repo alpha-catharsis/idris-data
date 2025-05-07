@@ -28,17 +28,6 @@ head (xs -: x) _ = case decProper xs of
   No propContra => x
   Yes propPrf => head xs propPrf
 
--------
--- Last
--------
-
-public export
-last : (xs : BList a) -> (0 propPrf : Proper xs) -> a
-last (x :- xs) _ = case decProper xs of
-  No propContra => x
-  Yes propPrf => last xs propPrf
-last (xs -: x) _ = x
-
 ------------------
 -- HeadOf property
 ------------------
@@ -125,6 +114,17 @@ snocHead : HeadOf x xs -> HeadOf x (xs -: z)
 snocHead ConsHead = FarHead ConsHead
 snocHead SnocHead = FarHead SnocHead
 snocHead (FarHead headPrf) = FarHead (snocHead headPrf)
+
+-------
+-- Last
+-------
+
+public export
+last : (xs : BList a) -> (0 propPrf : Proper xs) -> a
+last (x :- xs) _ = case decProper xs of
+  No propContra => x
+  Yes propPrf => last xs propPrf
+last (xs -: x) _ = x
 
 ------------------
 -- LastOf property
