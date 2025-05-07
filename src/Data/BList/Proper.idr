@@ -27,3 +27,13 @@ decProper : (xs : BList a) -> Dec (Proper xs)
 decProper [] = No absurd
 decProper (x :- xs) = Yes ProperCons
 decProper (xs -: x) = Yes ProperSnoc
+
+------------------
+-- Proper theorems
+------------------
+
+export
+notProperNil : {xs : BList a} -> Not (Proper xs) -> xs = []
+notProperNil {xs=[]} propContra = Refl
+notProperNil {xs=x' :- xs'} propContra = void (propContra ProperCons)
+notProperNil {xs=xs' -: x'} propContra = void (propContra ProperSnoc)
