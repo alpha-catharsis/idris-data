@@ -14,6 +14,7 @@ import Decidable.Equality
 -- Internal imports
 -------------------
 
+import Data.BList.Append
 import Data.BList.BList
 import Data.BList.Proper
 
@@ -121,3 +122,4 @@ snocHead : HeadOf x xs -> HeadOf x (xs -: z)
 snocHead ConsHead = FarHead ConsHead
 snocHead SnocHead = FarHead SnocHead
 snocHead (FarHead headPrf) = FarHead (snocHead headPrf)
+
