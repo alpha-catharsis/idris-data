@@ -50,7 +50,6 @@ export
   uninhabited ConsLast = propContra ProperCons
   uninhabited (FarLast lastPrf) = propContra ProperCons
 
-
 ------------------
 -- LastOf function
 ------------------
