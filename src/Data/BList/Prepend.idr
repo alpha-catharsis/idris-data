@@ -37,3 +37,9 @@ export
 prependRightNilNeutral : Forward xs -> xs :+ [] = xs
 prependRightNilNeutral FwdNil = Refl
 prependRightNilNeutral (FwdCons fwdPrf {x}) = cong (x :-) (prependRightNilNeutral fwdPrf)
+
+export
+prependForward : {xs : BList a} -> Forward ys -> Forward (xs :+ ys)
+prependForward {xs=[]} fwdPrf = fwdPrf
+prependForward {xs=x :- xs'} fwdPrf = FwdCons (prependForward fwdPrf)
+prependForward {xs=xs' -: x} fwdPrf = prependForward (FwdCons fwdPrf)

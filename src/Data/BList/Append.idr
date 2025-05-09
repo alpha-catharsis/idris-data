@@ -37,3 +37,9 @@ export
 appendLeftNilNeutral : Backward xs -> xs = [] +: xs
 appendLeftNilNeutral BwdNil = Refl
 appendLeftNilNeutral (BwdSnoc bwdPrf {x}) = cong (-: x) (appendLeftNilNeutral bwdPrf)
+
+export
+appendBackward : {xs : BList a} -> Backward ys -> Backward (ys +: xs)
+appendBackward {xs=[]} bwdPrf = bwdPrf
+appendBackward {xs=x :- xs'} bwdPrf = appendBackward (BwdSnoc bwdPrf)
+appendBackward {xs=xs' -: x} bwdPrf = BwdSnoc (appendBackward bwdPrf)
