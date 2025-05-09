@@ -8,8 +8,8 @@ module Data.BList.Prepend
 -- Internal imports
 -------------------
 
-import Data.BList.Backward
 import Data.BList.BList
+import Data.BList.Forward
 
 -------------------
 -- Prepend operator
@@ -33,7 +33,7 @@ injPrependRight {xs=[]} Refl = Refl
 injPrependRight {xs=x :- xs'} eqPrf = injPrependRight {xs=xs'} (injConsRight eqPrf)
 injPrependRight {xs=xs' -: x} eqPrf = injConsRight (injPrependRight {xs=xs'} eqPrf)
 
--- export
--- prependRightNilNeutral : Backward xs -> xs :+ [] = xs
--- prependRightNilNeutral BwdNil = Refl
--- prependRightNilNeutral BwdSnoc = ?b
+export
+prependRightNilNeutral : Forward xs -> xs :+ [] = xs
+prependRightNilNeutral FwdNil = Refl
+prependRightNilNeutral (FwdCons fwdPrf {x}) = cong (x :-) (prependRightNilNeutral fwdPrf)

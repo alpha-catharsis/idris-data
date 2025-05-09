@@ -8,6 +8,7 @@ module Data.BList.Append
 -- Internal imports
 -------------------
 
+import Data.BList.Backward
 import Data.BList.BList
 
 -------------------
@@ -32,3 +33,7 @@ injAppendLeft {ys=[]} Refl = Refl
 injAppendLeft {ys=y :- ys'} eqPrf = injSnocLeft (injAppendLeft {ys=ys'} eqPrf)
 injAppendLeft {ys=ys' -: y} eqPrf = injAppendLeft {ys=ys'} (injSnocLeft eqPrf)
 
+export
+appendLeftNilNeutral : Backward xs -> xs = [] +: xs
+appendLeftNilNeutral BwdNil = Refl
+appendLeftNilNeutral (BwdSnoc bwdPrf {x}) = cong (-: x) (appendLeftNilNeutral bwdPrf)
