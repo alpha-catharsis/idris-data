@@ -15,6 +15,7 @@ import public Data.BList.Equiv
 import public Data.BList.Forward
 import public Data.BList.Head
 import public Data.BList.Last
+import public Data.BList.Length
 import public Data.BList.MakeBackward
 import public Data.BList.MakeForward
 import public Data.BList.Prepend

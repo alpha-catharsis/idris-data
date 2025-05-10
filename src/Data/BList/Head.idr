@@ -96,12 +96,6 @@ head (xs -: x) propPrf = case decProper xs of
 -----------
 
 export
-headOfProper : HeadOf x xs -> Proper xs
-headOfProper ConsHead = ProperCons
-headOfProper SnocHead = ProperSnoc
-headOfProper (FarHead _) = ProperSnoc
-
-export
 prfToHeadEq : DecEq a => {xs : BList a} -> {0 propPrf : Proper xs} -> HeadOf x xs -> head xs propPrf = x
 prfToHeadEq {xs=x' :- xs'} ConsHead = Refl
 prfToHeadEq {xs=xs' -: x'} headPrf with (decProper xs')
@@ -116,6 +110,12 @@ headEqToPrf {xs=xs' -: x'} Refl with (decProper xs')
   headEqToPrf {xs=xs' -: x'} Refl | No propContra with (notProperNil propContra)
     headEqToPrf {xs=[] -: x'} Refl | No propContra | Refl = SnocHead
   headEqToPrf {xs=xs' -: x'} Refl | Yes propPrf' = FarHead (headEqToPrf {propPrf=propPrf'} Refl)
+
+export
+headOfProper : HeadOf x xs -> Proper xs
+headOfProper ConsHead = ProperCons
+headOfProper SnocHead = ProperSnoc
+headOfProper (FarHead _) = ProperSnoc
 
 export
 snocHead : HeadOf x xs -> HeadOf x (xs -: z)
