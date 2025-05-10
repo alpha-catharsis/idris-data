@@ -9,6 +9,7 @@ module Data.BList.Forward
 -------------------
 
 import Data.BList.BList
+import Data.BList.Equiv
 
 -------------------
 -- Forward property
@@ -44,6 +45,12 @@ decForward (xs -: x) = No absurd
 -----------
 
 export
+EquivProp Forward where
+  equivProp FwdNil EquivN = FwdNil
+  equivProp (FwdCons fwdPrf) (EquivC equivPrf) = FwdCons (equivProp fwdPrf equivPrf)
+
+export
 consForward : Forward xs -> Forward (x :- xs)
 consForward FwdNil = FwdCons FwdNil
 consForward (FwdCons fwdPrf) = FwdCons (consForward fwdPrf)
+

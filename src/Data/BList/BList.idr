@@ -110,9 +110,9 @@ DecEq a => DecEq (BList a) where
       No initEqContra => No absurd
       Yes initEqPrf => Yes (rewrite lastEqPrf in rewrite initEqPrf in Refl)
 
-----------------------------
--- Cons and snoc injectivity
-----------------------------
+-------------------------------------
+-- Cons and snoc injectivity theorems
+-------------------------------------
 
 export
 injConsLeft : x :- xs = y :- xs -> x = y

@@ -5,11 +5,19 @@
 module Data.BList.Prepend
 
 -------------------
+-- External imports
+-------------------
+
+import Data.Nat
+
+-------------------
 -- Internal imports
 -------------------
 
 import Data.BList.BList
 import Data.BList.Forward
+import Data.BList.Length
+import Data.BList.Proper
 
 -------------------
 -- Prepend operator
