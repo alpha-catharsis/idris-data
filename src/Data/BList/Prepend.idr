@@ -16,6 +16,8 @@ import Data.Nat
 
 import Data.BList.BList
 import Data.BList.Forward
+import Data.BList.Head
+import Data.BList.Last
 import Data.BList.Length
 import Data.BList.Proper
 
@@ -51,3 +53,21 @@ prependForward : {xs : BList a} -> Forward ys -> Forward (xs :+ ys)
 prependForward {xs=[]} fwdPrf = fwdPrf
 prependForward {xs=x :- xs'} fwdPrf = FwdCons (prependForward fwdPrf)
 prependForward {xs=xs' -: x} fwdPrf = prependForward (FwdCons fwdPrf)
+
+export
+prependSameHead : HeadOf x xs -> HeadOf x (xs :+ ys)
+prependSameHead ConsHead = ConsHead
+prependSameHead SnocHead = ConsHead
+prependSameHead (FarHead headPrf) = prependSameHead headPrf
+
+export
+prependSameLast : {ys : BList a} -> LastOf x xs -> LastOf x (ys :+ xs)
+prependSameLast {ys=[]} SnocLast = SnocLast
+prependSameLast {ys=y' :- ys'} SnocLast = FarLast (prependSameLast SnocLast)
+prependSameLast {ys=ys' -: y'} SnocLast = prependSameLast (FarLast SnocLast)
+prependSameLast {ys=[]} ConsLast = ConsLast
+prependSameLast {ys=y' :- ys'} ConsLast = FarLast (prependSameLast ConsLast)
+prependSameLast {ys=ys' -: y'} ConsLast = prependSameLast (FarLast ConsLast)
+prependSameLast {ys=[]} (FarLast lastPrf) = FarLast lastPrf
+prependSameLast {ys=y' :- ys'} (FarLast lastPrf) = FarLast (prependSameLast (FarLast lastPrf))
+prependSameLast {ys=ys' -: y'} (FarLast lastPrf) = prependSameLast (FarLast (FarLast lastPrf))

@@ -15,7 +15,6 @@ import Decidable.Equality
 -- Internal imports
 -------------------
 
-import Data.BList.Append
 import Data.BList.BList
 import Data.BList.Equiv
 import Data.BList.Proper
@@ -98,15 +97,15 @@ head (xs -: x) propPrf = case decProper xs of
 -----------
 
 export
-EquivRightRel' HeadOf where
-  equivRightRel' ConsHead EquivNCS = SnocHead
-  equivRightRel' ConsHead (EquivC equivPrf) = ConsHead
-  equivRightRel' ConsHead (EquivSC equivPrf) = FarHead ConsHead
-  equivRightRel' SnocHead EquivNSC = ConsHead
-  equivRightRel' SnocHead (EquivS EquivN) = SnocHead
-  equivRightRel' (FarHead headPrf) (EquivS equivPrf) = FarHead (equivRightRel' {Rel=HeadOf} headPrf equivPrf)
-  equivRightRel' (FarHead headPrf) (EquivCS equivPrf) =
-    aux (equivRightRel' {Rel=HeadOf} headPrf (EquivC equivPrf))
+EquivRightRel HeadOf where
+  equivRightRel ConsHead EquivNCS = SnocHead
+  equivRightRel ConsHead (EquivC equivPrf) = ConsHead
+  equivRightRel ConsHead (EquivSC equivPrf) = FarHead ConsHead
+  equivRightRel SnocHead EquivNSC = ConsHead
+  equivRightRel SnocHead (EquivS EquivN) = SnocHead
+  equivRightRel (FarHead headPrf) (EquivS equivPrf) = FarHead (equivRightRel {Rel=HeadOf} headPrf equivPrf)
+  equivRightRel (FarHead headPrf) (EquivCS equivPrf) =
+    aux (equivRightRel {Rel=HeadOf} headPrf (EquivC equivPrf))
       where aux : HeadOf x' (z' :- ys') -> HeadOf x' (z' :- (ys' -: w'))
             aux ConsHead = ConsHead
 
