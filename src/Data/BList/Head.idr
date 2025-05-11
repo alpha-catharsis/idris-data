@@ -96,13 +96,13 @@ head (xs -: x) propPrf = case decProper xs of
 -- Theorems
 -----------
 
-export
-EquivRightRel HeadOf where
-  equivRightRel ConsHead (EquivC equivPrf) = ConsHead
-  equivRightRel ConsHead (EquivSC equivPrf) = FarHead ConsHead
-  equivRightRel SnocHead (EquivS equivPrf) = ?c
-  equivRightRel (FarHead headPrf) (EquivS equivPrf) = ?d
-  equivRightRel (FarHead headPrf) (EquivCS equivPrf) = ?e
+-- export
+-- EquivRightRel HeadOf where
+--   equivRightRel ConsHead (EquivC equivPrf) = ConsHead
+--   equivRightRel ConsHead (EquivSC equivPrf) = FarHead ConsHead
+--   equivRightRel SnocHead (EquivS equivPrf) = ?c
+--   equivRightRel (FarHead headPrf) (EquivS equivPrf) = ?d
+--   equivRightRel (FarHead headPrf) (EquivCS equivPrf) = ?e
 
 export
 prfToHeadEq : DecEq a => {xs : BList a} -> {0 propPrf : Proper xs} -> HeadOf x xs -> head xs propPrf = x

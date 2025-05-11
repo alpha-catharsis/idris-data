@@ -44,10 +44,10 @@ decBackward (xs -: x) = case decBackward xs of
 -- Theorems
 -----------
 
-export
-EquivProp Backward where
-  equivProp BwdNil EquivN = BwdNil
-  equivProp (BwdSnoc bwdPrf) (EquivS equivPrf) = BwdSnoc (equivProp bwdPrf equivPrf)
+-- export
+-- EquivProp Backward where
+--   equivProp BwdNil EquivN = BwdNil
+--   equivProp (BwdSnoc bwdPrf) (EquivS equivPrf) = BwdSnoc (equivProp bwdPrf equivPrf)
 
 export
 snocBackward : Backward xs -> Backward (xs -: x)

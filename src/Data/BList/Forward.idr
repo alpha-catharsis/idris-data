@@ -44,10 +44,10 @@ decForward (xs -: x) = No absurd
 -- Theorems
 -----------
 
-export
-EquivProp Forward where
-  equivProp FwdNil EquivN = FwdNil
-  equivProp (FwdCons fwdPrf) (EquivC equivPrf) = FwdCons (equivProp fwdPrf equivPrf)
+-- export
+-- EquivProp Forward where
+--   equivProp FwdNil EquivN = FwdNil
+--   equivProp (FwdCons fwdPrf) (EquivC equivPrf) = FwdCons (equivProp fwdPrf equivPrf)
 
 export
 consForward : Forward xs -> Forward (x :- xs)

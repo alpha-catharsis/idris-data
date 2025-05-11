@@ -136,12 +136,12 @@ snocLengthSucc NilLen = SnocLen NilLen
 snocLengthSucc (ConsLen lenPrf) = SnocLen (ConsLen lenPrf)
 snocLengthSucc (SnocLen lenPrf) = SnocLen (snocLengthSucc lenPrf)
 
-export
-EquivLeftRel LengthOf where
-  equivLeftRel NilLen EquivN = NilLen
-  equivLeftRel (ConsLen lenPrf) (EquivC equivPrf) = consLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf equivPrf)
-  equivLeftRel (ConsLen lenPrf) (EquivSC equivPrf) =
-    lengthSnocConsInv (consLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf (EquivS equivPrf)))
-  equivLeftRel (SnocLen lenPrf) (EquivS equivPrf) = snocLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf equivPrf)
-  equivLeftRel (SnocLen lenPrf) (EquivCS equivPrf) =
-    lengthConsSnocInv (snocLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf (EquivC equivPrf)))
+-- export
+-- EquivLeftRel LengthOf where
+--   equivLeftRel NilLen EquivN = NilLen
+--   equivLeftRel (ConsLen lenPrf) (EquivC equivPrf) = consLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf equivPrf)
+--   equivLeftRel (ConsLen lenPrf) (EquivSC equivPrf) =
+--     lengthSnocConsInv (consLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf (EquivS equivPrf)))
+--   equivLeftRel (SnocLen lenPrf) (EquivS equivPrf) = snocLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf equivPrf)
+--   equivLeftRel (SnocLen lenPrf) (EquivCS equivPrf) =
+--     lengthConsSnocInv (snocLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf (EquivC equivPrf)))
