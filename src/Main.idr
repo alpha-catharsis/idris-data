@@ -1,6 +1,9 @@
 module Main
 
+import Decidable.Equality
+
 import Data.BList
+
 
 -- Test lists
 
@@ -22,14 +25,16 @@ dl5 = 1 :- 2 :- 3 :- []
 dl6 : BList Nat
 dl6 = [] -: 4 -: 5 -: 6
 
+dl7 : BList Nat
+dl7 = (2 :- ((4 :- []) -: 3)) -: 1
+
+
+
 -- Main
 main : IO ()
 main = do
-  putStrLn (repr dl1)
-  putStrLn (show dl1 ++ "\n")
-  putStrLn (repr dl2)
-  putStrLn (show dl2 ++ "\n")
-  putStrLn (repr dl3)
-  putStrLn (show dl3 ++ "\n")
-  putStrLn (repr dl4)
-  putStrLn (show dl4 ++ "\n")
+  putStrLn (repr dl7)
+  putStrLn (show dl7 ++ "\n")
+  case decTailOf (((4 :- []) -: 3) -: 1) dl7 of
+    No tailContra => putStrLn "NO TAIL"
+    Yes tailPrf => putStrLn "TAIL"

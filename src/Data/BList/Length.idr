@@ -10,6 +10,7 @@ module Data.BList.Length
 
 import Data.BList.BList
 import Data.BList.Proper
+import Data.BList.Equiv
 
 --------------------
 -- LengthOf property
@@ -100,6 +101,30 @@ succLengthProper (ConsLen lenPrf) = ProperCons
 succLengthProper (SnocLen lenPrf) = ProperSnoc
 
 export
+lengthConsSucc : LengthOf (x :- xs) (S m) -> LengthOf xs m
+lengthConsSucc (ConsLen lenPrf) = lenPrf
+
+export
+lengthSnocSucc : LengthOf (xs -: x) (S m) -> LengthOf xs m
+lengthSnocSucc (SnocLen lenPrf) = lenPrf
+
+export
+lengthConsSnoc : LengthOf (z :- xs) m -> LengthOf (xs -: w) m
+lengthConsSnoc (ConsLen lenPrf) = SnocLen lenPrf
+
+export
+lengthSnocCons : LengthOf (xs -: w) m -> LengthOf (z :- xs) m
+lengthSnocCons (SnocLen lenPrf) = ConsLen lenPrf
+
+export
+lengthConsSnocInv : LengthOf ((z :- xs) -: w) m -> LengthOf (z :- (xs -: w)) m
+lengthConsSnocInv (SnocLen (ConsLen lenPrf)) = ConsLen (SnocLen lenPrf)
+
+export
+lengthSnocConsInv : LengthOf (z :- (xs -: w)) m -> LengthOf ((z :- xs) -: w) m
+lengthSnocConsInv (ConsLen (SnocLen lenPrf)) = SnocLen (ConsLen lenPrf)
+
+export
 consLengthSucc : LengthOf xs m -> LengthOf (x :- xs) (S m)
 consLengthSucc NilLen = ConsLen NilLen
 consLengthSucc (ConsLen lenPrf) = ConsLen (consLengthSucc lenPrf)
@@ -110,3 +135,13 @@ snocLengthSucc : LengthOf xs m -> LengthOf (xs -: x) (S m)
 snocLengthSucc NilLen = SnocLen NilLen
 snocLengthSucc (ConsLen lenPrf) = SnocLen (ConsLen lenPrf)
 snocLengthSucc (SnocLen lenPrf) = SnocLen (snocLengthSucc lenPrf)
+
+export
+EquivLeftRel LengthOf where
+  equivLeftRel NilLen EquivN = NilLen
+  equivLeftRel (ConsLen lenPrf) (EquivC equivPrf) = consLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf equivPrf)
+  equivLeftRel (ConsLen lenPrf) (EquivSC equivPrf) =
+    lengthSnocConsInv (consLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf (EquivS equivPrf)))
+  equivLeftRel (SnocLen lenPrf) (EquivS equivPrf) = snocLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf equivPrf)
+  equivLeftRel (SnocLen lenPrf) (EquivCS equivPrf) =
+    lengthConsSnocInv (snocLengthSucc (equivLeftRel {Rel=LengthOf} lenPrf (EquivC equivPrf)))

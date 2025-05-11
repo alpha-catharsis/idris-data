@@ -9,6 +9,7 @@ module Data.BList.Proper
 -------------------
 
 import Data.BList.BList
+import Data.BList.Equiv
 
 ------------------
 -- Proper property
@@ -31,6 +32,13 @@ decProper (xs -: x) = Yes ProperSnoc
 ------------------
 -- Proper theorems
 ------------------
+
+export
+EquivProp Proper where
+  equivProp ProperCons (EquivC equivPrf) = ProperCons
+  equivProp ProperCons (EquivSC equivPrf) = ProperSnoc
+  equivProp ProperSnoc (EquivS equivPrf) = ProperSnoc
+  equivProp ProperSnoc (EquivCS equivPrf) = ProperCons
 
 export
 notProperNil : {xs : BList a} -> Not (Proper xs) -> xs = []
