@@ -5,6 +5,12 @@
 module Data.BList.Append
 
 -------------------
+-- External imports
+-------------------
+
+import Data.Nat
+
+-------------------
 -- Internal imports
 -------------------
 
@@ -12,6 +18,7 @@ import Data.BList.Backward
 import Data.BList.BList
 import Data.BList.Head
 import Data.BList.Last
+import Data.BList.Length
 
 -------------------
 -- Append operator
@@ -63,3 +70,15 @@ prependSameHead {ys=ys' -: y'} SnocHead = FarHead (prependSameHead SnocHead)
 prependSameHead {ys=[]} (FarHead headPrf) = FarHead headPrf
 prependSameHead {ys=y' :- ys'} (FarHead headPrf) = prependSameHead (FarHead (FarHead headPrf))
 prependSameHead {ys=ys' -: y'} (FarHead headPrf) = FarHead (prependSameHead (FarHead headPrf))
+
+-- export
+-- appendLengthSum : {n : Nat} -> LengthOf xs m -> LengthOf ys n -> LengthOf (ys +: xs) (m + n)
+-- appendLengthSum NilLen NilLen = NilLen
+-- appendLengthSum NilLen (ConsLen lenPrf') = ConsLen lenPrf'
+-- appendLengthSum NilLen (SnocLen lenPrf') = SnocLen lenPrf'
+-- appendLengthSum (ConsLen lenPrf) NilLen = rewrite plusZeroRightNeutral m in ?a4
+-- appendLengthSum (ConsLen lenPrf) (ConsLen lenPrf') = ?a5
+-- appendLengthSum (ConsLen lenPrf) (SnocLen lenPrf') = ?a6
+-- appendLengthSum (SnocLen lenPrf) NilLen = SnocLen (appendLengthSum lenPrf NilLen)
+-- appendLengthSum (SnocLen lenPrf {xs} {m}) (ConsLen lenPrf' {xs=ys} {m=n}) = SnocLen (appendLengthSum lenPrf (ConsLen lenPrf'))
+-- appendLengthSum (SnocLen lenPrf {xs} {m}) (SnocLen lenPrf' {xs=ys} {m=n}) = SnocLen (appendLengthSum lenPrf (SnocLen lenPrf'))

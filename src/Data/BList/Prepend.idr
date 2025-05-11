@@ -71,3 +71,19 @@ prependSameLast {ys=ys' -: y'} ConsLast = prependSameLast (FarLast ConsLast)
 prependSameLast {ys=[]} (FarLast lastPrf) = FarLast lastPrf
 prependSameLast {ys=y' :- ys'} (FarLast lastPrf) = FarLast (prependSameLast (FarLast lastPrf))
 prependSameLast {ys=ys' -: y'} (FarLast lastPrf) = prependSameLast (FarLast (FarLast lastPrf))
+
+export
+prependLengthSum : LengthOf xs m -> LengthOf ys n -> LengthOf (xs :+ ys) (m + n)
+prependLengthSum NilLen NilLen = NilLen
+prependLengthSum NilLen (ConsLen lenPrf') = ConsLen lenPrf'
+prependLengthSum NilLen (SnocLen lenPrf') = SnocLen lenPrf'
+prependLengthSum (ConsLen lenPrf) NilLen = ConsLen (prependLengthSum lenPrf NilLen)
+prependLengthSum (ConsLen lenPrf) (ConsLen lenPrf') = ConsLen (prependLengthSum lenPrf (ConsLen lenPrf'))
+prependLengthSum (ConsLen lenPrf) (SnocLen lenPrf') = ConsLen (prependLengthSum lenPrf (SnocLen lenPrf'))
+prependLengthSum (SnocLen lenPrf {m}) NilLen = rewrite plusZeroRightNeutral m in
+                                               rewrite sym (plusOneSucc m) in
+                                               rewrite plusCommutative 1 m in prependLengthSum lenPrf (ConsLen NilLen)
+prependLengthSum (SnocLen lenPrf {xs} {m}) (ConsLen lenPrf' {xs=ys} {m=n}) = rewrite plusSuccRightSucc m (S n)
+                                                                             in prependLengthSum lenPrf (ConsLen (ConsLen lenPrf'))
+prependLengthSum (SnocLen lenPrf {xs} {m}) (SnocLen lenPrf' {xs=ys} {m=n}) = rewrite plusSuccRightSucc m (S n)
+                                                                             in prependLengthSum lenPrf (ConsLen (SnocLen lenPrf'))
