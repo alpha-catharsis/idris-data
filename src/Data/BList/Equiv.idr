@@ -235,6 +235,22 @@ public export
 interface EquivRightRel (Rel : b -> BList a -> Type) where
   equivRightRel : Rel z xs -> Equiv xs ys -> Rel z ys
 
+public export
+interface EquivProp' (Prop : BList a -> Type) where
+  equivProp' : {xs : BList a} -> Prop xs -> Equiv xs ys -> Prop ys
+
+public export
+interface EquivRel' (Rel : BList a -> BList a -> Type) where
+  equivRel' : {xs, ys : BList a} -> Rel xs ys -> Equiv xs xs' -> Equiv ys ys' -> Rel xs' ys'
+
+public export
+interface EquivLeftRel' (Rel : BList a -> b -> Type) where
+  equivLeftRel' : {xs : BList a} -> Rel xs z -> Equiv xs ys -> Rel ys z
+
+public export
+interface EquivRightRel' (Rel : b -> BList a -> Type) where
+  equivRightRel' : {xs : BList a} -> Rel z xs -> Equiv xs ys -> Rel z ys
+
 ------------------------
 -- Equivalence reflexive
 ------------------------

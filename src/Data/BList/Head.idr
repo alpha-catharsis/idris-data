@@ -8,6 +8,7 @@ module Data.BList.Head
 -- External imports
 -------------------
 
+import Control.Relation
 import Decidable.Equality
 
 -------------------
@@ -96,13 +97,18 @@ head (xs -: x) propPrf = case decProper xs of
 -- Theorems
 -----------
 
--- export
--- EquivRightRel HeadOf where
---   equivRightRel ConsHead (EquivC equivPrf) = ConsHead
---   equivRightRel ConsHead (EquivSC equivPrf) = FarHead ConsHead
---   equivRightRel SnocHead (EquivS equivPrf) = ?c
---   equivRightRel (FarHead headPrf) (EquivS equivPrf) = ?d
---   equivRightRel (FarHead headPrf) (EquivCS equivPrf) = ?e
+export
+EquivRightRel' HeadOf where
+  equivRightRel' ConsHead EquivNCS = SnocHead
+  equivRightRel' ConsHead (EquivC equivPrf) = ConsHead
+  equivRightRel' ConsHead (EquivSC equivPrf) = FarHead ConsHead
+  equivRightRel' SnocHead EquivNSC = ConsHead
+  equivRightRel' SnocHead (EquivS EquivN) = SnocHead
+  equivRightRel' (FarHead headPrf) (EquivS equivPrf) = FarHead (equivRightRel' {Rel=HeadOf} headPrf equivPrf)
+  equivRightRel' (FarHead headPrf) (EquivCS equivPrf) =
+    aux (equivRightRel' {Rel=HeadOf} headPrf (EquivC equivPrf))
+      where aux : HeadOf x' (z' :- ys') -> HeadOf x' (z' :- (ys' -: w'))
+            aux ConsHead = ConsHead
 
 export
 prfToHeadEq : DecEq a => {xs : BList a} -> {0 propPrf : Proper xs} -> HeadOf x xs -> head xs propPrf = x

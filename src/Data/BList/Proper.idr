@@ -33,12 +33,14 @@ decProper (xs -: x) = Yes ProperSnoc
 -- Proper theorems
 ------------------
 
--- export
--- EquivProp Proper where
---   equivProp ProperCons (EquivC equivPrf) = ProperCons
---   equivProp ProperCons (EquivSC equivPrf) = ProperSnoc
---   equivProp ProperSnoc (EquivS equivPrf) = ProperSnoc
---   equivProp ProperSnoc (EquivCS equivPrf) = ProperCons
+export
+EquivProp Proper where
+  equivProp ProperCons EquivNCS = ProperSnoc
+  equivProp ProperCons (EquivC equivPrf) = ProperCons
+  equivProp ProperCons (EquivSC equivPrf) = ProperSnoc
+  equivProp ProperSnoc EquivNSC = ProperCons
+  equivProp ProperSnoc (EquivS equivPrf) = ProperSnoc
+  equivProp ProperSnoc (EquivCS equivPrf) = ProperCons
 
 export
 notProperNil : {xs : BList a} -> Not (Proper xs) -> xs = []
